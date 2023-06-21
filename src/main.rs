@@ -51,7 +51,11 @@ async fn main() {
     let issues = response_json["issues"].as_array().unwrap();
     for issue in issues {
         // println!("------ Issue Key ------");
-        println!("{}/{}","https://jurnal.atlassian.net/browse",  issue["key"].as_str().unwrap());
+        println!("{}/{} {} due:{}",
+            "https://jurnal.atlassian.net/browse", 
+            issue["key"].as_str().unwrap(), 
+            issue["fields"]["status"]["name"].as_str().unwrap(), 
+            issue["fields"]["duedate"].as_str().unwrap() );
         // println!("{}", issue["fields"]["description"]);
     }
 
