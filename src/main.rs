@@ -2,6 +2,7 @@
 use reqwest::header::{ACCEPT, AUTHORIZATION, CONTENT_TYPE};
 use reqwest::{Client, Response};
 use base64;
+use base64::{Engine as _, engine::{general_purpose}};
 use serde_json::Value;
 use dotenv::dotenv;
 
@@ -21,7 +22,7 @@ async fn main() {
     headers.insert(ACCEPT, "application/json".parse().unwrap());
     headers.insert(CONTENT_TYPE, "application/json".parse().unwrap());
     let auth_value = format!("{}:{}", email, api_token);
-    let encoded_auth = base64::encode(auth_value);
+    let encoded_auth = general_purpose::STANDARD.encode(auth_value.as_bytes());
     headers.insert(AUTHORIZATION, format!("Basic {}", encoded_auth).parse().unwrap());
 
     // Set the request parameters
